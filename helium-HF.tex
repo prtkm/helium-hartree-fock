@@ -1,36 +1,59 @@
-#+TITLE: Quantum Chemistry II : HW2
-#+AUTHOR: Prateek Mehta
-#+DATE: \today
-#+LATEX_CLASS: article
-#+LATEX_CLASS_OPTIONS: [11pt]
-#+OPTIONS: ^:{} # make super/subscripts only when wrapped in {}
-#+OPTIONS: toc:nil # suppress toc, so we can put it where we want
-#+OPTIONS: tex:t
-#+EXPORT_EXCLUDE_TAGS: noexport
-
-#+LATEX_HEADER: \usepackage[left=1in, right=1in, top=1in, bottom=1in, nohead]{geometry}
-#+LATEX_HEADER: \usepackage{fancyhdr}
-#+LATEX_HEADER: \usepackage{hyperref}
-#+LATEX_HEADER: \usepackage{setspace}
-#+LATEX_HEADER: \usepackage[labelfont=bf]{caption}
-#+LATEX_HEADER: \usepackage{amsmath}
-#+LATEX_HEADER: \usepackage{enumerate}
-#+LATEX_HEADER: \usepackage[parfill]{parskip}
-#+LATEX_HEADER: \usepackage[version=3]{mhchem}
-
+% Created 2015-03-27 Fri 06:21
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage[version=3]{mhchem}
+\usepackage[numbers,super,sort&compress]{natbib}
+\usepackage{natmove}
+\usepackage{url}
+\usepackage{minted}
+\usepackage{underscore}
+\usepackage[linktocpage,pdfstartview=FitH,colorlinks,
+linkcolor=blue,anchorcolor=blue,
+citecolor=blue,filecolor=blue,menucolor=blue,urlcolor=blue]{hyperref}
+\usepackage{attachfile}
+\usepackage[left=1in, right=1in, top=1in, bottom=1in, nohead]{geometry}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage[labelfont=bf]{caption}
+\usepackage{amsmath}
+\usepackage{enumerate}
+\usepackage[parfill]{parskip}
+\usepackage[version=3]{mhchem}
+\author{Prateek Mehta}
+\date{\today}
+\title{Quantum Chemistry II : HW2}
+\begin{document}
 
 \maketitle
 
 
-* A brief note
+\section{A brief note}
+\label{sec-1}
 
-The source code and all the files used to create this document is available at https://github.com/prtkm/helium-hartree-fock.
+The source code and all the files used to create this document is available at \url{https://github.com/prtkm/helium-hartree-fock}.
 
-* The code
-  
-Here is the code that perfroms a Hartree Fock simulation for the He atom. If you are on the website you can access the script at [[./helium-hf.py]].
+\section{The code}
+\label{sec-2}
 
-#+BEGIN_SRC python :tangle helium-hf.py
+Here is the code that perfroms a Hartree Fock simulation for the He atom.
+
+\begin{minted}[frame=lines,fontsize=\scriptsize,linenos]{python}
 import numpy as np
 from itertools import product
 from scipy.linalg import eig
@@ -281,21 +304,19 @@ def main(*args):
 if __name__ == '__main__':
     import sys
     main(*sys.argv)
-#+END_SRC
-
-#+RESULTS:
+\end{minted}
 
 
-* A demo
+\section{A demo}
+\label{sec-3}
 
 Here is an example of running the code from the command line.
 
-#+BEGIN_SRC sh
+\begin{minted}[frame=lines,fontsize=\scriptsize,linenos]{sh}
 python helium-hf.py -z1 1.45 -z2 2.91 -k 2
-#+END_SRC
+\end{minted}
 
-#+RESULTS:
-#+begin_example
+\begin{verbatim}
 --------------------
 Starting Simulation
 --------------------
@@ -366,15 +387,16 @@ dC21 = 0.00002
 
 Reached required accuracy in 4 iterations. Stopping Simulation.
 --------------------
-#+end_example
+\end{verbatim}
 
 
 
-* Number of iterations required
+\section{Number of iterations required}
+\label{sec-4}
 
 The script below dumps out the energies for each scf step and the number of iterations required to reach scf convergence. It appears that for almost every initial guess of k, it takes about 4 iterations to reach convergence. The final energy converges to the same value, so everything looks ok.
 
-#+BEGIN_SRC sh
+\begin{minted}[frame=lines,fontsize=\scriptsize,linenos]{sh}
 for k in 100 10 1 0 -1 -10 -100
 do
     echo 'k =' $k':'
@@ -382,10 +404,9 @@ do
     python helium-hf.py -z1 1.45 -z2 2.91 -k $k | grep iterations
     echo
 done
-#+END_SRC
+\end{minted}
 
-#+RESULTS:
-#+begin_example
+\begin{verbatim}
 k = 100:
 E0 = -2.79861910194
 E0 = -2.86149366533
@@ -435,27 +456,29 @@ E0 = -2.8614474518
 E0 = -2.86166900728
 E0 = -2.86166954552
 Reached required accuracy in 4 iterations. Stopping Simulation.
+\end{verbatim}
 
-#+end_example
 
+\section{Checking with 'Optimal Values'}
+\label{sec-5}
 
-* Checking with 'Optimal Values'
-  
-Here is the test to calculate with the reported optimal values of \zeta_{1} and \zeta_{2}. It looks like it perfectly matches the value reported by Roetti and CLementi.
+Here is the test to calculate with the reported optimal values of $\zeta$$_{\text{1}}$ and $\zeta$$_{\text{2}}$. It looks like it perfectly matches the value reported by Roetti and CLementi.
 
-#+BEGIN_SRC sh
+\begin{minted}[frame=lines,fontsize=\scriptsize,linenos]{sh}
 python helium-hf.py -z1 1.45363 -z2 2.91093 -k 4.60 | tail -15 | grep E0
-#+END_SRC
+\end{minted}
 
-#+RESULTS:
-: E0 = -2.86167259768
+\begin{verbatim}
+E0 = -2.86167259768
+\end{verbatim}
 
 
-* Energy as a function of \zeta_{1}
+\section{Energy as a function of $\zeta$$_{\text{1}}$}
+\label{sec-6}
 
-Plotting over a range of values of \zeta_{1}, at the optimal \zeta_{2} value, we find that the reported \zeta_{1} value gives the lowest energy.
+Plotting over a range of values of $\zeta$$_{\text{1}}$, at the optimal $\zeta$$_{\text{2}}$ value, we find that the reported $\zeta$$_{\text{1}}$ value gives the lowest energy.
 
-#+BEGIN_SRC python
+\begin{minted}[frame=lines,fontsize=\scriptsize,linenos]{python}
 from subprocess import Popen, PIPE
 import numpy as np
 import matplotlib.pyplot as plt
@@ -484,8 +507,8 @@ plt.ylabel('Energy (a.u.)', fontsize=24)
 plt.tight_layout()
 plt.savefig('optimal-zeta-1.png')
 plt.show()
-#+END_SRC
+\end{minted}
 
-#+RESULTS:
-
-[[./optimal-zeta-1.png]]
+\includegraphics[width=.9\linewidth]{./optimal-zeta-1.png}
+% Emacs 24.4.1 (Org mode 8.2.10)
+\end{document}
