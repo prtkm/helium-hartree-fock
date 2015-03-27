@@ -290,7 +290,7 @@ if __name__ == '__main__':
 
 Here is an example of running the code from the command line.
 
-#+BEGIN_SRC sh
+#+BEGIN_SRC sh :exports both
 python helium-hf.py -z1 1.45 -z2 2.91 -k 2
 #+END_SRC
 
@@ -374,7 +374,7 @@ Reached required accuracy in 4 iterations. Stopping Simulation.
 
 The script below dumps out the energies for each scf step and the number of iterations required to reach scf convergence. It appears that for almost every initial guess of k, it takes about 4 iterations to reach convergence. The final energy converges to the same value, so everything looks ok.
 
-#+BEGIN_SRC sh
+#+BEGIN_SRC sh :exports both
 for k in 100 10 1 0 -1 -10 -100
 do
     echo 'k =' $k':'
@@ -443,7 +443,7 @@ Reached required accuracy in 4 iterations. Stopping Simulation.
   
 Here is the test to calculate with the reported optimal values of \zeta_{1} and \zeta_{2}. It looks like it perfectly matches the value reported by Roetti and CLementi.
 
-#+BEGIN_SRC sh
+#+BEGIN_SRC sh :exports both
 python helium-hf.py -z1 1.45363 -z2 2.91093 -k 4.60 | tail -15 | grep E0
 #+END_SRC
 
@@ -455,7 +455,7 @@ python helium-hf.py -z1 1.45363 -z2 2.91093 -k 4.60 | tail -15 | grep E0
 
 Plotting over a range of values of \zeta_{1}, at the optimal \zeta_{2} value, we find that the reported \zeta_{1} value gives the lowest energy.
 
-#+BEGIN_SRC python
+#+BEGIN_SRC python :exports both
 from subprocess import Popen, PIPE
 import numpy as np
 import matplotlib.pyplot as plt
